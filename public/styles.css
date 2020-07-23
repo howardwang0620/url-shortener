@@ -1,0 +1,27 @@
+body {
+	position: relative;
+	font-family: "Lucida Console", Monaco, monospace;
+}
+
+.flexDiv {
+	height: 80vh;
+
+	display: flex;
+    flex-direction: column;
+    justify-content: center;   
+    align-items: center;
+
+}
+
+.flexForm {
+	margin: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column; 
+	align-items: center;
+}
+
+.flexForm input {
+	font-family: "Lucida Console", Monaco, monospace;
+	margin-bottom: 10px;
+}
