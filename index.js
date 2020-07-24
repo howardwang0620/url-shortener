@@ -86,7 +86,7 @@ app.post('/create', async (req, res, next) => {
 	} catch(err) {
 
 		//error caught if inputs didn't pass validation
-		return next(createError(400, 'id or url doesn\'t look right 😳'));
+		return next(createError(400, 'id or url doesn\'t look right 🥵'));
 	}
 });
 
