@@ -12,6 +12,12 @@ body {
     align-items: center;
 }
 
+@media only screen and (max-width: 768px) {
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
 .flexForm {
 	margin: 10px;
 	display: flex;
