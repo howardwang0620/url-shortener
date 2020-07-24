@@ -34,7 +34,7 @@ const schema = yup.object().shape({
 
 //gets id of a url and redirects to url
 app.get('/:id', async (req, res) => {
-	const id = req.params.id;
+	const id = req.params.id.toLowerCase();
 
 	try {
 		const url = await data.findOne({id: id});
@@ -64,6 +64,9 @@ app.get('/error/404', (req, res) => {
 app.post('/create', async (req, res, next) => {
 
 	let { id, url } = req.body;
+
+	url = url.toLowerCase();
+
 	try {
 		//generate id if no id supplied
 		if(!id) id = nanoid(6);
@@ -75,6 +78,8 @@ app.post('/create', async (req, res, next) => {
 		});
 
 		//insert into mongodb -> check if id exists within mongodb library -> should check for collisions here
+		id = id.toLowerCase();
+		url = url.toLowerCase();
 		try {
 			await data.insert({
 				id: id,
@@ -82,7 +87,7 @@ app.post('/create', async (req, res, next) => {
 			});
 
 			return res.json({
-				message: `👆🙏🔑: ${id}`,
+				message: `👆🙏🔑: shortnr.link/${id}`,
 				id: id,
 				url: url,
 			});
@@ -90,7 +95,7 @@ app.post('/create', async (req, res, next) => {
 		} catch(err) {
 
 			//error caught if duplicate entry in db
-			return next(createError(400, 'That key already exists 😩'));
+			return next(createError(400, 'that key already exists 😩'));
 		}
 	} catch(err) {
 

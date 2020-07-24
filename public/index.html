@@ -2,17 +2,17 @@
 	<link rel="stylesheet" href="styles.css">
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale= 1.0, maximum-scale=1.0, minimum-scale= 1.0, user-scalable=no, minimal-ui">
-		<title>Dude...</title>
+		<title>dude...</title>
 	</head>
 	<body>
 		<main id="app">
-			<h1>Shorten that URL dude</h1>
+			<h1>shorten that url dude</h1>
 			<div id="responseDiv" class="responseDiv" v-if="data">
 				{{JSON.stringify(data['message'], null, 2)}}
 			</div>
 			<form class="flexForm" @submit.prevent=createUrl()> 
-				<input v-model="id" name="id" type="text" placeholder="Slug" autocomplete="off">
-				<input v-model="url" name="url" type="text" placeholder="Url" autocomplete="off">
+				<input v-model="id" name="id" type="text" placeholder="slug" autocomplete="off">
+				<input v-model="url" name="url" type="text" placeholder="url" autocomplete="off">
 				<br>
 				<input type="submit" value="Submit">
 			</form>
