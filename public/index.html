@@ -4,14 +4,19 @@
 		<title>Dude...</title>
 	</head>
 	<body>
-		<div class="flexDiv">
+		<main id="app">
 			<h1>Shorten that URL dude</h1>
-			<form class="flexForm"> 
-				<input name="id" type="text" placeholder="Slug" autocomplete="off">
-				<input name="url" type="text" placeholder="Url" autocomplete="off">
+			<div id="responseDiv" class="responseDiv" v-if="data">
+				{{JSON.stringify(data['message'], null, 2)}}
+			</div>
+			<form class="flexForm" @submit.prevent=createUrl()> 
+				<input v-model="id" name="id" type="text" placeholder="Slug" autocomplete="off">
+				<input v-model="url" name="url" type="text" placeholder="Url" autocomplete="off">
 				<br>
 				<input type="submit" value="Submit">
 			</form>
-		</div>
+		</main>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="app.js"></script>
 	</body>
 </html>

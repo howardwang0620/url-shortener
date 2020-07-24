@@ -4,6 +4,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var yup = require('yup');
 var { nanoid } = require('nanoid');
+var createError = require('http-errors');
 
 var app = express();
 app.use(helmet());
@@ -25,13 +26,14 @@ data.createIndex('id', {unique: true});
 
 //schema for mongodb doc using yup
 const schema = yup.object().shape({
-	id: yup.string().trim().matches(/[a-zA-Z0-9_\-]/).max(6),
+	id: yup.string().trim().matches(/[\w\-]/).max(6),
 	url: yup.string().trim().url().required()
 });
 
 //gets id of a url and redirects to url
 app.get('/:id', async (req, res) => {
 	const id = req.params.id;
+
 	try {
 		const url = await data.findOne({id: id});
 
@@ -39,10 +41,13 @@ app.get('/:id', async (req, res) => {
 			res.redirect(url.url);
 		}
 
-		res.redirect();
+		//no url was found
+		res.redirect(`/?error=${id} not found`);
 	} catch(err) {
-		// next(err);
-		res.redirect();
+
+		//id not found
+		// return next(createError(400, ''));
+		res.redirect(`/error=Link not found`);
 	}
 });
 
@@ -51,25 +56,24 @@ app.post('/create', async (req, res, next) => {
 
 	let { id, url } = req.body;
 	try {
+		//generate id if no id supplied
+		if(!id) id = nanoid(6);
 
-		//vzlidate input formats
+		//validate input formats
 		await schema.validate({
 			id: id,
 			url: url
 		});
 
-		//generate id if no id supplied
-		if(!id) id = nanoid(6);
-
-		//insert into mongodb -> check if id exists within mongodb library
+		//insert into mongodb -> check if id exists within mongodb library -> should check for collisions here
 		try {
 			await data.insert({
 				id: id,
 				url: url
 			});
 
-			res.json({
-				message: 'You just shortened that URL dude',
+			return res.json({
+				message: `👆🙏🔑: ${id}`,
 				id: id,
 				url: url,
 			});
@@ -77,17 +81,17 @@ app.post('/create', async (req, res, next) => {
 		} catch(err) {
 
 			//error caught if duplicate entry in db
-			next(err);
+			return next(createError(400, 'That key already exists 😩'));
 		}
 	} catch(err) {
 
 		//error caught if inputs didn't pass validation
-		next(err);
+		return next(createError(400, 'id or url doesn\'t look right 😳'));
 	}
 });
 
 app.use(function(err, req, res, next) {
-	res.json({message: err.message});
+	res.json({status: err, message: err.message});
 });
 
 const PORT = process.env.PORT || 3000;
