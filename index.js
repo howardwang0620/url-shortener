@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var yup = require('yup');
 var { nanoid } = require('nanoid');
 var createError = require('http-errors');
+var path = require('path');
 
 var app = express();
 app.use(helmet());
@@ -30,6 +31,7 @@ const schema = yup.object().shape({
 	url: yup.string().trim().url().required()
 });
 
+
 //gets id of a url and redirects to url
 app.get('/:id', async (req, res) => {
 	const id = req.params.id;
@@ -42,13 +44,20 @@ app.get('/:id', async (req, res) => {
 		}
 
 		//no url was found
-		res.redirect(`/?error=${id} not found`);
+		// res.redirect(`/?error=${id} not found`);
+		res.redirect('/error/404');
 	} catch(err) {
 
 		//id not found
 		// return next(createError(400, ''));
-		res.redirect(`/error=Link not found`);
+		// res.redirect(`/error=Link not found`);
+		res.redirect('/error/404');
 	}
+});
+
+//error page
+app.get('/error/404', (req, res) => {
+	res.sendFile(path.join(__dirname + '/public/error.html'));
 });
 
 //creates new url with unique id
