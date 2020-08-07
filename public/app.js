@@ -1,3 +1,4 @@
+//vue instance for html
 const app = new Vue({
 	el: '#app',
 	data: {
@@ -7,10 +8,10 @@ const app = new Vue({
 		message: null
 	},
 	methods: {
+		//createUrl function for posting url and supplied slug to backend
 		async createUrl() {
 
-			console.log(this.id, this.url);
-
+			// console.log(this.id, this.url);
 			const res = await fetch(`/create`, {
 				method: 'POST',
 				headers: {
@@ -22,11 +23,11 @@ const app = new Vue({
 				})
 			});
 
-
+			//receive response and display
 			this.data = await res.json();
 			this.message = {
-				message: this.data['message']
-			}
+				message: this.data['message'],
+			};
 		}
 	}
-})
+});
