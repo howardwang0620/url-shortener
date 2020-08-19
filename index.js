@@ -108,7 +108,7 @@ app.post('/create', async (req, res, next) => {
 
 //fall through function sending error messages back to client
 app.use(function(err, req, res, next) {
-	res.json({status: err, message: err.message});
+	return res.json({status: err, message: err.message});
 });
 
 const PORT = process.env.PORT || 3000;
