@@ -10,8 +10,6 @@ const app = new Vue({
 	methods: {
 		//createUrl function for posting url and supplied slug to backend
 		async createUrl() {
-
-			// console.log(this.id, this.url);
 			const res = await fetch(`/create`, {
 				method: 'POST',
 				headers: {
