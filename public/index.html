@@ -10,7 +10,7 @@
 			<div id="responseDiv" class="responseDiv" v-if="data">
 				{{JSON.stringify(data['message'], null, 2)}}
 			</div>
-			<form class="flexForm" @submit.prevent=createUrl()> 
+			<form class="flexForm" @submit.prevent=createUrl()>
 				<input v-model="id" name="id" type="text" placeholder="slug" autocomplete="off">
 				<input v-model="url" name="url" type="text" placeholder="url" autocomplete="off">
 				<br>
